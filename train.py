@@ -1,6 +1,7 @@
 import gymnasium as gym
 import numpy as np
 import genetic
+import constants
 
 def train(
     population_size: int,
@@ -55,7 +56,7 @@ def train(
     env.close()
     
     if write_to_file:
-        with open("weights.txt", "w") as weights_file:
+        with open(constants.WEIGHTS_FILE_PATH, "w") as weights_file:
             lines = [f"{str(weight)}\n" for weight in best_weights]
             weights_file.writelines(lines)
     

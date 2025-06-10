@@ -1,0 +1,1 @@
+WEIGHTS_FILE_PATH = "weights/weights.txt"
