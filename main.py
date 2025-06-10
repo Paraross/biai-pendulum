@@ -1,31 +1,6 @@
 import gymnasium as gym
 import numpy as np
-
-# Define a simple neural network as a genome
-def policy(observation, weights):
-    # weights: [input_size * hidden + hidden * output]
-    input_size = observation.shape[0]
-    hidden_size = 8
-    output_size = 1
-
-    w1 = weights[:input_size * hidden_size].reshape(input_size, hidden_size)
-    w2 = weights[input_size * hidden_size:].reshape(hidden_size, output_size)
-
-    hidden = np.tanh(np.dot(observation, w1))
-    output = np.tanh(np.dot(hidden, w2))  # Action range is [-1, 1]
-    return output * 2.0  # Scale to [-2, 2] for Pendulum
-
-def evaluate(env, weights, episodes=3):
-    total_reward = 0
-    for _ in range(episodes):
-        obs, _ = env.reset()
-        done = False
-        while not done:
-            action = policy(obs, weights)
-            obs, reward, terminated, truncated, _ = env.step(action)
-            total_reward += reward
-            done = terminated or truncated
-    return total_reward / episodes
+import genetic
 
 def main():
     # Genetic Algorithm Parameters
@@ -46,7 +21,7 @@ def main():
 
     for generation in range(generations):
         # Evaluate fitness
-        fitness = np.array([evaluate(env, ind) for ind in population])
+        fitness = np.array([genetic.evaluate(env, ind) for ind in population])
         print(f"Generation {generation} - Best Fitness: {np.max(fitness):.2f}")
 
         # Select elites
@@ -75,20 +50,24 @@ def main():
         population = np.array(new_population)
 
     # Test best individual
-    best_index = np.argmax([evaluate(env, ind) for ind in population])
+    best_index = np.argmax([genetic.evaluate(env, ind) for ind in population])
     best_weights = population[best_index]
     print(f"Best index: {best_index}")
     print(f"Best weights: {best_weights}")
 
-    obs, _ = env.reset()
-    for _ in range(100):
-        action = policy(obs, best_weights)
-        obs, reward, terminated, truncated, _ = env.step(action)
-        env.render()
-        if terminated or truncated:
-            obs, _ = env.reset()
-
     env.close()
+
+    env_test = gym.make("Pendulum-v1", render_mode="human")
+
+    obs, _ = env_test.reset()
+    for _ in range(100):
+        action = genetic.policy(obs, best_weights)
+        obs, reward, terminated, truncated, _ = env_test.step(action)
+        env_test.render()
+        if terminated or truncated:
+            obs, _ = env_test.reset()
+
+    env_test.close()
 
 
 if __name__ == "__main__":
