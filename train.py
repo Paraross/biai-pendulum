@@ -2,15 +2,14 @@ import gymnasium as gym
 import numpy as np
 import genetic
 
-def train(write_to_file: bool = False):
-    # Genetic Algorithm Parameters
-    population_size = 50
-    generations = 50
-    mutation_rate = 0.1
-    elite_fraction = 0.2
-
-    # env = gym.make("Pendulum-v1", render_mode="human")
-    env = gym.make("Pendulum-v1", render_mode="rgb_array")
+def train(
+    population_size: int,
+    generations: int,
+    mutation_rate: float,
+    elite_fraction: float,
+    write_to_file: bool = False
+):
+    env = gym.make("Pendulum-v1")
     input_size = env.observation_space.shape[0] # type: ignore
     hidden_size = 8
     output_size = 1
@@ -63,4 +62,4 @@ def train(write_to_file: bool = False):
     return best_weights
 
 if __name__ == "__main__":
-    train(True)
+    train(50, 50, 0.1, 0.2, True)
