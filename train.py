@@ -8,7 +8,6 @@ def train(
     generations: int,
     mutation_rate: float,
     elite_fraction: float,
-    write_to_file: bool = False
 ):
     env = gym.make("Pendulum-v1")
     input_size = env.observation_space.shape[0] # type: ignore
@@ -55,12 +54,11 @@ def train(
     
     env.close()
     
-    if write_to_file:
-        with open(constants.WEIGHTS_FILE_PATH, "w") as weights_file:
-            lines = [f"{str(weight)}\n" for weight in best_weights]
-            weights_file.writelines(lines)
+    with open(constants.WEIGHTS_FILE_PATH, "w") as weights_file:
+        lines = [f"{str(weight)}\n" for weight in best_weights]
+        weights_file.writelines(lines)
     
     return best_weights
 
 if __name__ == "__main__":
-    train(50, 50, 0.1, 0.2, True)
+    train(50, 50, 0.1, 0.2)

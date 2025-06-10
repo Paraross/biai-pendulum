@@ -11,7 +11,6 @@ def read_weights_from_file():
     return np.array(weights)
 
 def main():
-    # weights = train.train()
     weights = read_weights_from_file()
     
     env_test = gym.make("Pendulum-v1", render_mode="human")
