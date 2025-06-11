@@ -1,15 +1,14 @@
 import gymnasium as gym
 import numpy as np
+from constants import HIDDEN_SIZE, OUTPUT_SIZE
 
 # Define a simple neural network as a genome
-def policy(observation, genes: np.ndarray) -> float:
+def policy(observation: np.ndarray, genes: np.ndarray) -> float:
     # genes: [input_size * hidden + hidden * output]
     input_size = observation.shape[0]
-    hidden_size = 8
-    output_size = 1
 
-    w1 = genes[:input_size * hidden_size].reshape(input_size, hidden_size)
-    w2 = genes[input_size * hidden_size:].reshape(hidden_size, output_size)
+    w1 = genes[:input_size * HIDDEN_SIZE].reshape(input_size, HIDDEN_SIZE)
+    w2 = genes[input_size * HIDDEN_SIZE:].reshape(HIDDEN_SIZE, OUTPUT_SIZE)
 
     hidden = np.tanh(np.dot(observation, w1))
     output = np.tanh(np.dot(hidden, w2))  # Action range is [-1, 1]

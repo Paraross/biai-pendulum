@@ -1,7 +1,7 @@
 import gymnasium as gym
 import numpy as np
 import genetic
-import constants
+from constants import HIDDEN_SIZE, OUTPUT_SIZE, GENES_FILE_PATH
 
 def train(
     population_size: int,
@@ -13,9 +13,7 @@ def train(
     env = gym.make("Pendulum-v1")
     # observation space: [x = cos(theta), y = sin(theta), angular velocity]
     input_size = env.observation_space.shape[0] # type: ignore
-    hidden_size = 8
-    output_size = 1
-    genes_dim = hidden_size * (input_size + output_size)
+    genes_dim = HIDDEN_SIZE * (input_size + OUTPUT_SIZE)
 
     # Initialize population with random genes
     population = np.random.randn(population_size, genes_dim)
@@ -56,7 +54,7 @@ def train(
     
     env.close()
     
-    with open(constants.GENES_FILE_PATH, "w") as genes_file:
+    with open(GENES_FILE_PATH, "w") as genes_file:
         lines = [f"{str(gene)}\n" for gene in best_individual]
         genes_file.writelines(lines)
     
