@@ -7,6 +7,7 @@ def train(
     population_size: int,
     generations: int,
     mutation_rate: float,
+    mutation_strength: float,
     elite_fraction: float,
 ):
     env = gym.make("Pendulum-v1")
@@ -42,7 +43,7 @@ def train(
 
             # Mutation
             if np.random.rand() < mutation_rate:
-                mutation = np.random.randn(genes_dim) * 0.1
+                mutation = np.random.randn(genes_dim) * mutation_strength
                 child += mutation
 
             new_population.append(child)
@@ -62,4 +63,4 @@ def train(
     return best_individual
 
 if __name__ == "__main__":
-    train(50, 50, 0.1, 0.2)
+    train(50, 50, 0.1, 0.1, 0.2)
