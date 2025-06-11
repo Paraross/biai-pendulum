@@ -1,1 +1,3 @@
 GENES_FILE_PATH = "genes/genes.txt"
+HIDDEN_SIZE = 8
+OUTPUT_SIZE = 1

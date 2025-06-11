@@ -2,10 +2,10 @@ import gymnasium as gym
 import numpy as np
 import genetic
 import train
-import constants
+from constants import GENES_FILE_PATH
 
 def read_genes_from_file():
-    genes_file = open(constants.GENES_FILE_PATH)
+    genes_file = open(GENES_FILE_PATH)
     content = genes_file.read()
     genes = [float(line) for line in content.splitlines()]
     return np.array(genes)
