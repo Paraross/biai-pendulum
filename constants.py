@@ -1,1 +1,1 @@
-WEIGHTS_FILE_PATH = "weights/weights.txt"
+GENES_FILE_PATH = "genes/genes.txt"

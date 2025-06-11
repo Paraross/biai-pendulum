@@ -4,20 +4,20 @@ import genetic
 import train
 import constants
 
-def read_weights_from_file():
-    weights_file = open(constants.WEIGHTS_FILE_PATH)
-    content = weights_file.read()
-    weights = [float(line) for line in content.splitlines()]
-    return np.array(weights)
+def read_genes_from_file():
+    genes_file = open(constants.GENES_FILE_PATH)
+    content = genes_file.read()
+    genes = [float(line) for line in content.splitlines()]
+    return np.array(genes)
 
 def main():
-    weights = read_weights_from_file()
+    genes = read_genes_from_file()
     
     env_test = gym.make("Pendulum-v1", render_mode="human")
 
     obs, _ = env_test.reset()
     while (True):
-        action = genetic.policy(obs, weights)
+        action = genetic.policy(obs, genes)
         obs, reward, terminated, truncated, _ = env_test.step(action)
         env_test.render()
         if terminated or truncated:
